@@ -97,8 +97,8 @@ export default {
                         return this.$message.error("登录失败");
                     this.$message.success("登录成功");
                     console.log(res);
-                    window.sessionStorage.setItem('token',res.data.token)
-                    this.$router.push('/home')
+                    window.sessionStorage.setItem("token", res.data.token);
+                    this.$router.push("/home");
                 } else {
                     // console.log("error submit!!");
                     return false;
@@ -116,7 +116,7 @@ export default {
 <style scoped lang="less">
 .login_container {
     height: 100%;
-    background-color: #2b4b6b;
+    background-color: #bbe6d6;
     text-align: center;
 }
 .login_box {
