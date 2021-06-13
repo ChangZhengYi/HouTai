@@ -6,6 +6,7 @@ import "./assets/css/global.css";
 import axios from "axios";
 
 axios.defaults.baseURL = "http://42.192.40.14:8889/api/private/v1/";
+// axios.defaults.baseURL = "http://timemeetyou.com:8889/api/private/v1/";
 
 axios.interceptors.request.use((config) => {
     // console.log(config);
