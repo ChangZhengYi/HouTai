@@ -330,16 +330,7 @@ export default {
             this.addcateform.cat_pid = 0;
             this.addcateform.cat_level = 0;
         },
-        //点击编辑分类的对话框
-        async showEditDialog(id) {
-            // console.log(id);
-            const { data: res } = await this.$http.get("categories/" + id);
-            if (res.meta.status !== 200) {
-                return this.$message.error("查询用户信息失败！！");
-            }
-            this.editForm = res.data;
-            this.editdialogVisible = true;
-        },
+    
         //监听修改分类对话框的关闭事件
         editdialog() {
             this.$refs.editFormRef.resetFields();
