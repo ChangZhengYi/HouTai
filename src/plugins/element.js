@@ -32,7 +32,17 @@ import {
     Alert,
     Tabs,
     TabPane,
+    Steps,
+    Step,
+    CheckboxGroup,
+    Checkbox,
+    Upload,
 } from "element-ui";
+Vue.use(Upload);
+Vue.use(Checkbox);
+Vue.use(CheckboxGroup);
+Vue.use(Step);
+Vue.use(Steps);
 Vue.use(TabPane);
 Vue.use(Tabs);
 Vue.use(Alert);
