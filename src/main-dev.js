@@ -12,22 +12,27 @@ import VueQuillEditor from "vue-quill-editor";
 import "quill/dist/quill.core.css"; // import styles
 import "quill/dist/quill.snow.css"; // for snow theme
 import "quill/dist/quill.bubble.css"; // for bubble theme
-
+import NProgress from "nprogress";
+import "nprogress/nprogress.css";
 axios.defaults.baseURL = "http://42.192.40.14:8889/api/private/v1/";
 // axios.defaults.baseURL = "http://timemeetyou.com:8889/api/private/v1/";
 
 axios.interceptors.request.use((config) => {
     // console.log(config);
+    NProgress.start();
     config.headers.Authorization = window.sessionStorage.getItem("token");
     return config;
 });
-
+axios.interceptors.response.use((config) => {
+    NProgress.done();
+    return config;
+});
 Vue.prototype.$http = axios;
 
 Vue.config.productionTip = false;
 
 Vue.component("tree-table", TreeTable);
-//将富文本，注册为全局可用的组件 
+//将富文本，注册为全局可用的组件
 Vue.use(VueQuillEditor /* { default global options } */);
 
 Vue.filter("dataFormat", function(originVal) {
