@@ -330,32 +330,27 @@ export default {
             this.addcateform.cat_pid = 0;
             this.addcateform.cat_level = 0;
         },
-    
         //监听修改分类对话框的关闭事件
         editdialog() {
             this.$refs.editFormRef.resetFields();
         },
         //修改分类并提交
-        edituserinfo() {
-            this.$refs.editFormRef.validate(async (valid) => {
-                if (!valid) return;
-                //可以发起修改分类的请求
-                const { data: res } = await this.$http.put(
-                    "categories/" + this.editForm.cat_id,
-                    {
-                        cat_name: this.addcateform.cat_name,
-                    }
-                );
-                if (res.meta.status !== 200) {
-                    return this.$message.error("更新分类失败！！");
+        async edituserinfo() {
+            //可以发起修改分类的请求
+            const { data: res } = await this.$http.put(
+                "categories/" + this.addcateform.cat_id,
+                {
+                    cat_name: this.addcateform.cat_name,
                 }
-
-                //隐藏添加的对话框
-                this.editdialogVisible = false;
-                //重新获取列表
-                this.getCatelist();
-                this.$message.success("更新分类成功");
-            });
+            );
+            if (res.meta.status !== 200) {
+                return this.$message.error("更新分类失败！！");
+            }
+            //隐藏添加的对话框
+            this.editdialogVisible = false;
+            //重新获取列表
+            this.getCatelist();
+            this.$message.success("更新分类成功");
         },
         //根据id删除对应的id信息
         async removeUserById(id) {
@@ -378,6 +373,15 @@ export default {
             }
             this.$message.success("删除分类成功！！");
             this.getCatelist();
+        },
+        async showEditDialog(id) {
+            console.log(id);
+            const { data: res } = await this.$http.get(`categories/${id}`);
+            if (res.meta.status !== 200) {
+                return this.$message.error("查询分类失败！！");
+            }
+            this.addcateform = res.data;
+            this.editdialogVisible = true;
         },
     },
     components: {},

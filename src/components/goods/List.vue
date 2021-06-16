@@ -60,6 +60,7 @@
                             type="primary"
                             icon="el-icon-edit"
                             size="mini"
+                            @click="showEditDialog(scope.row.goods_id)"
                         ></el-button>
                         <el-button
                             type="danger"
@@ -82,6 +83,39 @@
                 background
             >
             </el-pagination>
+            <!-- 修改用户的对话框 -->
+            <el-dialog
+                title="修改角色"
+                :visible.sync="editdialogVisible"
+                width="50%"
+                @close="editdialog()"
+            >
+                <el-form :model="addForm" ref="editFormRef" label-width="70px">
+                    <el-form-item label="商品名称">
+                        <el-input v-model="addForm.goods_name"></el-input>
+                    </el-form-item>
+                    <el-form-item label="价格">
+                        <el-input v-model="addForm.goods_price"></el-input>
+                    </el-form-item>
+                    <el-form-item label="数量">
+                        <el-input v-model="addForm.goods_number"></el-input>
+                    </el-form-item>
+                    <el-form-item label="重量">
+                        <el-input v-model="addForm.goods_weight"></el-input>
+                    </el-form-item>
+                    <el-form-item label="分类">
+                        <el-input v-model="addForm.goods_cat"></el-input>
+                    </el-form-item>
+                </el-form>
+                <span slot="footer" class="dialog-footer">
+                    <el-button @click="editdialogVisible = false"
+                        >取消</el-button
+                    >
+                    <el-button type="primary" @click="edituserinfo"
+                        >确 定</el-button
+                    >
+                </span>
+            </el-dialog>
         </el-card>
     </div>
 </template>
@@ -104,6 +138,16 @@ export default {
             goodslist: [],
             //总数据条数
             total: 0,
+            //控制修改用户对话框的显示与隐藏
+            editdialogVisible: false,
+            //查询到的用户信息对象
+            editForm: "",
+            addForm: {
+                goods_name: "",
+                goods_price: 0,
+                goods_weight: 0,
+                goods_number: 0,
+            },
         };
     },
     methods: {
@@ -149,7 +193,45 @@ export default {
             this.getgoodslist();
         },
         goAddpage() {
-            this.$router.push('/goods/add')
+            this.$router.push("/goods/add");
+        },
+        //点击编辑用户的对话框
+        async showEditDialog(id) {
+            console.log(id);
+            const { data: res } = await this.$http.get(`goods/${id}`);
+            if (res.meta.status !== 200) {
+                return this.$message.error("查询商品信息失败！！");
+            }
+            this.addForm = res.data;
+            this.editdialogVisible = true;
+        },
+        //监听修改用户对话框的关闭事件
+        editdialog() {
+            this.$refs.editFormRef.resetFields();
+        },
+        //修改用户信息并提交
+
+        async edituserinfo() {
+            //可以发起修改用户的请求
+            const { data: res } = await this.$http.put(
+                "goods/" + this.addForm.goods_id,
+                {
+                    goods_name: this.addForm.goods_name,
+                    goods_price: this.addForm.goods_price,
+                    goods_number: this.addForm.goods_number,
+                    goods_weight: this.addForm.goods_weight,
+                    goods_cat: this.addForm.goods_cat,
+                }
+            );
+            if (res.meta.status !== 200) {
+                return this.$message.error("更新商品信息失败！！");
+            }
+
+            //隐藏添加的对话框
+            this.editdialogVisible = false;
+            //重新获取用户列表
+            this.getgoodslist();
+            this.$message.success("更新商品信息成功");
         },
     },
     components: {},

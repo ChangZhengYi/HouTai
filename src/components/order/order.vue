@@ -16,10 +16,12 @@
                         placeholder="请输入内容"
                         v-model="queryinof.query"
                         clearable
+                        @clear="getOrderList"
                     >
                         <el-button
                             slot="append"
                             icon="el-icon-search"
+                            @click="getOrderList"
                         ></el-button>
                     </el-input>
                 </el-col>
@@ -118,9 +120,7 @@
             </el-form>
             <span slot="footer" class="dialog-footer">
                 <el-button @click="addressVisible = false">取 消</el-button>
-                <el-button type="primary" @click="addressVisible = false"
-                    >确 定</el-button
-                >
+                <el-button type="primary" @click="addCate">确 定</el-button>
             </span>
         </el-dialog>
 
@@ -286,6 +286,20 @@ export default {
             // this.progressinfo = res.data;
             this.progressVisible = true;
             console.log(this.progressinfo);
+        },
+        //点击按钮添加新的分类
+        async addCate() {
+            const { data: res } = await this.$http.post(
+                "categories",
+                this.addcateform
+            );
+            if (res.meta.status !== 201) {
+                return this.$message.error("修改失败");
+            }
+
+            this.$message.success("修改成功");
+            this.getOrderList();
+            this.addcatedialogVisible = false;
         },
     },
     components: {},
