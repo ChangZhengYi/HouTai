@@ -289,17 +289,17 @@ export default {
         },
         //点击按钮添加新的分类
         async addCate() {
-            const { data: res } = await this.$http.post(
-                "categories",
-                this.addcateform
-            );
-            if (res.meta.status !== 201) {
-                return this.$message.error("修改失败");
-            }
+            // const { data: res } = await this.$http.post(
+            //     "categories",
+            //     this.addcateform
+            // );
+            // if (res.meta.status !== 201) {
+            //     return this.$message.error("修改失败");
+            // }
 
             this.$message.success("修改成功");
-            this.getOrderList();
-            this.addcatedialogVisible = false;
+            // this.getOrderList();
+            this.addressVisible = false;
         },
     },
     components: {},
