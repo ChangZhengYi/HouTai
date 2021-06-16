@@ -8,7 +8,7 @@ module.exports = {
                 .add("./src/main-prod.js");
 
             config.set("externals", {
-                vue: "vue",
+                vue: "1",
                 "vue-router": "VueRouter",
                 axios: "axios",
                 lodash: "_",
