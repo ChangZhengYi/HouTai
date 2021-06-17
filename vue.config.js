@@ -8,13 +8,13 @@ module.exports = {
                 .add("./src/main-prod.js");
 
             config.set("externals", {
-                vue: "1",
+                vue: "Vue",
                 "vue-router": "VueRouter",
                 axios: "axios",
                 lodash: "_",
                 echarts: "echarts",
-                nprogress: "NPrOgress",
-                "vue-quill-editor": "vueQuillEditor",
+                nprogress: "NProgress",
+                "vue-quill-editor": "VueQuillEditor",
             });
             config.plugin("html").tap((args) => {
                 args[0].isProd = true;
